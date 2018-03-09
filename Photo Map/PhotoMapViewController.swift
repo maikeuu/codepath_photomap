@@ -12,7 +12,7 @@ import MapKit
 
 var capturedPhoto: UIImage?
 
-class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationsViewControllerDelegate {
+class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationsViewControllerDelegate, MKMapViewDelegate {
     
     
 
@@ -21,6 +21,7 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
             let sfRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(37.783333, -122.416667),
                                                   MKCoordinateSpanMake(0.1, 0.1))
             mapView.setRegion(sfRegion, animated: false)
+            mapView.delegate = self 
         }
     }
     
@@ -47,19 +48,15 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
-        print("FUNCTION IS BEING CALLED!")
         
         let reuseID = "myAnnotationView"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID)
         
-        print("ANNOTATION VIEW IS STILL WORKING")
         if (annotationView == nil) {
-            print("ANNOTATION VIEW IS NOT NIL??")
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
             annotationView!.canShowCallout = true
             annotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
         }
-        print("IF STATEMENT WENT PAST")
         let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
         imageView.image = #imageLiteral(resourceName: "camera")
         return annotationView
